@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
 				NextTransition();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Q)) {
+		if(Input.GetKeyDown(KeyCode.Q) && Input.GetKey(KeyCode.LeftShift)) {
 			NextTransition();
 		}
 	}
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour {
 //		background.animation["FadeInOut"].speed = -1;
 //		background.animation.Play ("FadeInOut");
 //
-		yield return new WaitForSeconds (background.animation ["FadeInOut"].length);
+		yield return new WaitForSeconds (background.GetComponent<Animation>() ["FadeInOut"].length);
 		sceneTransition.SetActive (false);
 //		action ();
 	}

@@ -61,8 +61,8 @@ public class GameButton : MonoBehaviour {
 			emitColor = Color.grey;
 		}
 
-		transform.FindChild ("button_main").renderer.material.color = mainColor;
-		transform.FindChild ("buttonBase").renderer.material.SetColor("_EmitColor", emitColor);
+		transform.FindChild ("button_main").GetComponent<Renderer>().material.color = mainColor;
+		transform.FindChild ("buttonBase").GetComponent<Renderer>().material.SetColor("_EmitColor", emitColor);
 
 	}
 	

@@ -52,7 +52,7 @@ public class Box : MonoBehaviour {
 		if(moving)
 		{
 			if( !myAudioSource.isPlaying )
-				audio.Play();
+				GetComponent<AudioSource>().Play();
 
 			transform.position = Vector3.MoveTowards(transform.position, endPos, Time.deltaTime * pushSpeed);
 			

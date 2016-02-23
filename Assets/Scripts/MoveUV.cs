@@ -19,6 +19,6 @@ public class MoveUV : MonoBehaviour {
 			speed = Random.Range(0.5f, 1.5f);
 		}
 
-		renderer.material.mainTextureOffset += Vector2.one * speed * Time.deltaTime;
+		GetComponent<Renderer>().material.mainTextureOffset += Vector2.one * speed * Time.deltaTime;
 	}
 }

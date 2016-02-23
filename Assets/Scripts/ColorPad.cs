@@ -54,11 +54,11 @@ public class ColorPad : MonoBehaviour
 	void SetMaterialColor()
 	{
 		if (color.currentColor == ColorComponent.pColor.blue)
-			renderer.material.color = Color.blue;
+			GetComponent<Renderer>().material.color = Color.blue;
 		else if (color.currentColor == ColorComponent.pColor.red)
-			renderer.material.color = Color.red;
+			GetComponent<Renderer>().material.color = Color.red;
 		else
-			renderer.material.color = Color.white;
+			GetComponent<Renderer>().material.color = Color.white;
 	}
 
 }

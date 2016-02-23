@@ -13,12 +13,12 @@ public class ForceField : MonoBehaviour {
 
 	public void TurnOn() {
 		GetComponentInParent<Tile> ().ReserveNode (true, false);
-		renderer.enabled = true;
+		GetComponent<Renderer>().enabled = true;
 	}
 
 	public void TurnOff() {
 		GetComponentInParent<Tile> ().ReserveNode (false, false);
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 	}
 
 	public void ChangeColor(ColorComponent.pColor color) {
