@@ -32,7 +32,7 @@ public class ColorComponent : MonoBehaviour
 	
 	void SetMaterialColor()
 	{
-		SendMessage ("ChangeColor", currentColor, SendMessageOptions.RequireReceiver);
+		SendMessage ("CmdChangeColor", currentColor, SendMessageOptions.RequireReceiver);
 
 //		Renderer[] renderers = GetComponentsInChildren<Renderer> ();
 //

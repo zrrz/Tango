@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent (typeof (ColorComponent))]
-public class GameButton : MonoBehaviour {
+public class GameButton : NetworkBehaviour {
 
 	public bool isPressed = false;
 	public bool requiresPressure = false;
@@ -46,7 +47,8 @@ public class GameButton : MonoBehaviour {
 		return color.currentColor;
 	}
 
-	public void ChangeColor(ColorComponent.pColor color) {
+	[Command]
+	public void CmdChangeColor(ColorComponent.pColor color) {
 		Color mainColor = Color.white;
 		Color emitColor = Color.white;
 

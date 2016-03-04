@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public enum Direction {
 	UP, DOWN, LEFT, RIGHT
@@ -49,6 +50,7 @@ public class TileManager : MonoBehaviour
 	/// <returns>The to tile.</returns>
 	/// <param name="tile">Tile.</param>
 	/// <param name="direction">Direction.</param>
+
 	public Tile MoveToTile( Tile tile, Direction direction, ColorComponent.pColor color )
 	{
 		int index = GetIndex(tile);

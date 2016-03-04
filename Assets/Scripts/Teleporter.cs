@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Teleporter : MonoBehaviour {
+public class Teleporter : NetworkBehaviour {
 
 	public bool activated = false;
 
@@ -27,7 +28,8 @@ public class Teleporter : MonoBehaviour {
 		activated = false;
 	}
 
-	public void ChangeColor(ColorComponent.pColor color) {
+	[Command]
+	public void CmdChangeColor(ColorComponent.pColor color) {
 		Renderer[] renderers = GetComponentsInChildren<Renderer> ();
 
 		foreach(Renderer rend in renderers) {

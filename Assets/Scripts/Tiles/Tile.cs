@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Tile : MonoBehaviour 
+public class Tile : NetworkBehaviour 
 {
 	public GameObject node;
 
@@ -13,6 +14,7 @@ public class Tile : MonoBehaviour
 
 	TileObject tileObject;
 
+	[SyncVar]
 	public bool reserved;
 
 	TileManager tileManager;
@@ -37,13 +39,19 @@ public class Tile : MonoBehaviour
 		return reserved;
 	}
 
-	public void ReserveNode( bool reserve, bool canStepOn)
+	[Command]
+	public void CmdReserveNode( bool reserve, bool canStepOn)
 	{
 		if(passable)
 			reserved = reserve;
 
 		if( !reserve && canStepOn && tileObject != null )
 			tileObject.SteppedOff();
+	}
+
+	public void ReserveNode( bool reserve, bool canStepOn)
+	{
+		CmdReserveNode(reserve, canStepOn);
 	}
 
 	public Vector3 GetNodePos()

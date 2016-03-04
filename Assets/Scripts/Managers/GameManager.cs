@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour {
 
@@ -15,13 +16,16 @@ public class GameManager : MonoBehaviour {
 
 	public static bool paused = false;
 
-	public static float musicVolume = 8;
+	public static float musicVolume = 1;
 	public static float effectsVolume = 1;
 	public AudioClip mainMenuMusic;
 	public AudioClip gameMusic;
 	private AudioSource myAudioSource;
 
 	static bool redTeleportOn = false, blueTeleportOn = false;
+
+	[HideInInspector]
+	public NetworkManager networkManager;
 
 	void Awake () {
 		if(s_instance == null) {
@@ -51,6 +55,11 @@ public class GameManager : MonoBehaviour {
 		myAudioSource.Play();
 
 		sceneTransition.SetActive (false);
+
+		networkManager = GetComponent<NetworkManager>();
+
+		optionMenu.GetComponent<OptionMenu>().UpdateEffectsVolume(GameManager.effectsVolume);
+		optionMenu.GetComponent<OptionMenu>().UpdateMusicVolume(GameManager.musicVolume);
 	}
 
 	void OnLevelWasLoaded() {

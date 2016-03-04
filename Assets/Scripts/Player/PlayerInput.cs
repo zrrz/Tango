@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class PlayerInput : MonoBehaviour {
+[RequireComponent(typeof(NetworkIdentity))]
+public class PlayerInput : NetworkBehaviour {
 
 	public int controllerIndex = 1;
 	public string controllerName;
@@ -13,7 +15,7 @@ public class PlayerInput : MonoBehaviour {
 	public float gravity = 20.0F;
 	//private Vector3 moveDirection = Vector3.zero;
 	
-	public GameObject characterVisual;
+	//public GameObject characterVisual;
 
 	// Grid Movement
 	private bool moving;
@@ -35,6 +37,7 @@ public class PlayerInput : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		
 		controller = GetComponent<CharacterController>();
 
 		controllerName = " Stick " + controllerIndex;
@@ -60,20 +63,34 @@ public class PlayerInput : MonoBehaviour {
 				//x = ( x < pos.x ) ? x + .5f : x - .5f;
 			}
 			float z = Mathf.Round(pos.z);
+
 			
-			currentTile = tileManager.GetTileAtPosition(new Vector3(x, 0.5f, z));
-			
-			if(currentTile != null)
-			{
+			if(isLocalPlayer) {
+				currentTile = GameObject.Find("8 6").transform.GetChild(0).GetComponent<Tile>();
+				currentTile.ReserveNode(true, true);
+				transform.position = currentTile.GetNodePos();
+			} else {
+				currentTile = GameObject.Find("8 7").transform.GetChild(0).GetComponent<Tile>();
 				currentTile.ReserveNode(true, true);
 				transform.position = currentTile.GetNodePos();
 			}
+
+//			currentTile = tileManager.GetTileAtPosition(new Vector3(x, 0.5f, z));
+//			
+//			if(currentTile != null)
+//			{
+//				print("nigga2");
+//				currentTile.ReserveNode(true, true);
+//				transform.position = currentTile.GetNodePos();
+//			}
 		}
 		grabParticle.SetActive(false);
 	}
 	
 	void Update() 
 	{
+		if(!isLocalPlayer)
+			return;
 		// Input
 		if(Input.GetButtonDown("Flashlight" + controllerName))
 		{
@@ -205,16 +222,16 @@ public class PlayerInput : MonoBehaviour {
 		switch(currentDirection)
 		{
 		case Direction.UP:
-			characterVisual.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+			transform.rotation = Quaternion.LookRotation(Vector3.forward);
 			break;
 		case Direction.DOWN:
-			characterVisual.transform.rotation = Quaternion.LookRotation(Vector3.back);
+			transform.rotation = Quaternion.LookRotation(Vector3.back);
 			break;
 		case Direction.LEFT:
-			characterVisual.transform.rotation = Quaternion.LookRotation(Vector3.left);
+			transform.rotation = Quaternion.LookRotation(Vector3.left);
 			break;
 		case Direction.RIGHT:
-			characterVisual.transform.rotation = Quaternion.LookRotation(Vector3.right);
+			transform.rotation = Quaternion.LookRotation(Vector3.right);
 			break;
 		}
 
@@ -237,7 +254,8 @@ public class PlayerInput : MonoBehaviour {
 		}
 	}
 
-	public void ChangeColor(ColorComponent.pColor color) {
+	[Command]
+	public void CmdChangeColor(ColorComponent.pColor color) {
 		Renderer[] renderers = GetComponentsInChildren<Renderer> ();
 		
 		foreach(Renderer rend in renderers) {
@@ -253,6 +271,11 @@ public class PlayerInput : MonoBehaviour {
 		}
 	}
 
+	[Command]
+	void CmdSetDestinationTile() {
+		SetDestinationTile();
+	}
+		
 	void SetDestinationTile()
 	{
 		if (nextTile != null && currentTile != nextTile)
